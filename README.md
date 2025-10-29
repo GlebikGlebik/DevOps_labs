@@ -56,7 +56,7 @@
 1) сначала устанавливаем ffuf:
 
 <div align="center">
-    <img width="1865" height="510" alt="image" src="https://github.com/user-attachments/assets/1bac23c4-7577-4ad5-8ce4-0384966e077e" />
+    <img width="1206" height="622" alt="image" src="https://github.com/user-attachments/assets/5cce7e5f-cdfd-4c05-a564-b2e0dfb73d3b" />
 </div>
 
 2) Теперь пытаемся найти скрытые страницы, вокруг тех, что были в sitemap:
