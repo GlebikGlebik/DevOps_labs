@@ -1,0 +1,18 @@
+FROM ubuntu:22.04
+
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install flask
+
+ENV DB_PASSWORD=""
+ENV API_KEY=""
+
+RUN groupadd -r user && useradd -r -g user user
+
+COPY app.py /app.py
+
+RUN chown user:user /app.py
+
+USER user
+
+CMD ["python3", "app.py"]
+
