@@ -161,24 +161,26 @@ CMD ["/venv/bin/python3", "app.py"]
 
 ## Шаг 5: Тестирование
 ### Сборка Docker образов
+<img width="1358" height="517" alt="Снимок экрана 2025-11-17 в 18 09 23" src="https://github.com/user-attachments/assets/08b6fca7-71b6-4c11-b568-4ed86eb9a934" />
 
-![Сборка "плохого" образа](/Users/lisau/Documents/DevOps_lab2/DevOps_labs/lab2/screenshots/1.png)
+<img width="1369" height="518" alt="Снимок экрана 2025-11-17 в 18 09 34" src="https://github.com/user-attachments/assets/d49fbe02-4351-4fe4-b7bd-903e0171de95" />
 
-![Сборка "хорошего" образа](screenshots/2.png)
 
 ### Запуск контейнеров
+<img width="653" height="57" alt="Снимок экрана 2025-11-17 в 18 10 51" src="https://github.com/user-attachments/assets/79226dc0-f8a2-4201-8e2e-c7dcde14cb3b" />
 
-![Запуск контейнеров](screenshots/3.png)
+<img width="678" height="52" alt="Снимок экрана 2025-11-17 в 18 10 57" src="https://github.com/user-attachments/assets/809f4dd4-4bca-482b-a8f7-05473fd72d84" />
 
-![Запуск контейнеров](screenshots/4.png)
+<img width="1144" height="86" alt="Снимок экрана 2025-11-17 в 18 11 03" src="https://github.com/user-attachments/assets/2c9dcb7c-0578-4716-9325-908f5cc87ac4" />
 
-![Видно что работают](screenshots/5.png)
+<img width="997" height="89" alt="Снимок экрана 2025-11-17 в 18 11 14" src="https://github.com/user-attachments/assets/d41c745b-9afe-449a-8d84-13559a1fd6aa" />
 
 ### Тестирование приложений
 
-![Тест "плохого" контейнера](screenshots/6.png)
+<img width="527" height="47" alt="Снимок экрана 2025-11-17 в 18 11 35" src="https://github.com/user-attachments/assets/3e1f3f36-f122-4f87-aa09-15ce734a1c9b" />
 
-![Тест "хорошего" контейнера](screenshots/7.png)
+<img width="489" height="60" alt="Снимок экрана 2025-11-17 в 18 11 38" src="https://github.com/user-attachments/assets/6a16b15e-da60-418c-bee9-28920d00153a" />
+
 
 ## Шаг 6: Косяки в работе с контейнерами
 В возможные ошибки в работе с контейнерами, а не их сборке, можно включить: 
