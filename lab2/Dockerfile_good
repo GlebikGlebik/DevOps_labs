@@ -1,7 +1,8 @@
 FROM ubuntu:22.04
 
-RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip3 install flask
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
+
+RUN python3 -m venv /venv && /venv/bin/pip install flask
 
 ENV DB_PASSWORD=""
 ENV API_KEY=""
@@ -14,5 +15,4 @@ RUN chown user:user /app.py
 
 USER user
 
-CMD ["python3", "app.py"]
-
+CMD ["/venv/bin/python3", "app.py"]

@@ -32,12 +32,13 @@ FROM ubuntu:latest
 RUN apt-get update
 RUN apt-get install -y python3 python3-pip
 
-RUN pip3 install flask
+RUN pip3 install --break-system-packages flask
 
 ENV DB_PASSWORD="db_password"
 ENV API_KEY="api_key"
 
 COPY . /app
+WORKDIR /app
 
 CMD ["python3", "app.py"]
 ```
@@ -46,8 +47,9 @@ CMD ["python3", "app.py"]
 ```dockerfile
 FROM ubuntu:22.04
 
-RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip3 install flask
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
+
+RUN python3 -m venv /venv && /venv/bin/pip install flask
 
 ENV DB_PASSWORD=""
 ENV API_KEY=""
@@ -60,9 +62,7 @@ RUN chown user:user /app.py
 
 USER user
 
-CMD ["python3", "app.py"]
-
-
+CMD ["/venv/bin/python3", "app.py"]
 ```
 
 ## Шаг 4: Сравним  “плохой” и “хороший”
@@ -91,7 +91,7 @@ CMD ["python3", "app.py"]
 RUN groupadd -r user && useradd -r -g user user
 RUN chown user:user /app.py
 USER user
-CMD ["python3", "app.py"]
+CMD ["/venv/bin/python3", "app.py"]
 ```
  – Создаем системную группу
 
@@ -102,6 +102,7 @@ CMD ["python3", "app.py"]
  – Переключает контекст выполнения всех последующих команд на указанного пользователя
 
 Безопасность обеспечивается тем что приложение запускается с минимальными разрешениями
+
 ### Плохая практика №3
 #### Хранение секретов в образе
 ```dockerfile
@@ -140,11 +141,46 @@ RUN apt-get install -y python3 python3-pip
 
 #### Решение
 ```dockerfile
-RUN apt-get update && apt-get install -y python3 python3-pip
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 ```
 – Объединение команд уменьшает количество слоев
 
-## Шаг 5: Косяки в работе с контейнерами
+### Плохая практика №6
+#### Игнорирование современных ограничений безопасности
+```dockerfile
+RUN pip3 install --break-system-packages flask
+```
+– Обход системных защит, что может привести к конфликтам пакетов
+
+#### Решение
+```dockerfile
+RUN python3 -m venv /venv && /venv/bin/pip install flask
+CMD ["/venv/bin/python3", "app.py"]
+```
+– Использование виртуального окружения для изоляции зависимостей
+
+## Шаг 5: Тестирование
+### Сборка Docker образов
+
+![Сборка "плохого" образа](/Users/lisau/Documents/DevOps_lab2/DevOps_labs/lab2/screenshots/1.png)
+
+![Сборка "хорошего" образа](screenshots/2.png)
+
+### Запуск контейнеров
+
+![Запуск контейнеров](screenshots/3.png)
+
+![Запуск контейнеров](screenshots/4.png)
+
+![Видно что работают](screenshots/5.png)
+
+### Тестирование приложений
+
+![Тест "плохого" контейнера](screenshots/6.png)
+
+![Тест "хорошего" контейнера](screenshots/7.png)
+
+## Шаг 6: Косяки в работе с контейнерами
 В возможные ошибки в работе с контейнерами, а не их сборке, можно включить: 
 ### Неиспользование restart policies
 При любом падении приложения контейнер останавливается и пре перезагрузке сервиса контейнеры не запускаются автоматически. Для восстановления работы требуется ручное вмешательство. 
