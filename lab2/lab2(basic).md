@@ -32,12 +32,13 @@ FROM ubuntu:latest
 RUN apt-get update
 RUN apt-get install -y python3 python3-pip
 
-RUN pip3 install flask
+RUN pip3 install --break-system-packages flask
 
 ENV DB_PASSWORD="db_password"
 ENV API_KEY="api_key"
 
 COPY . /app
+WORKDIR /app
 
 CMD ["python3", "app.py"]
 ```
@@ -46,8 +47,9 @@ CMD ["python3", "app.py"]
 ```dockerfile
 FROM ubuntu:22.04
 
-RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip3 install flask
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
+
+RUN python3 -m venv /venv && /venv/bin/pip install flask
 
 ENV DB_PASSWORD=""
 ENV API_KEY=""
@@ -60,9 +62,7 @@ RUN chown user:user /app.py
 
 USER user
 
-CMD ["python3", "app.py"]
-
-
+CMD ["/venv/bin/python3", "app.py"]
 ```
 
 ## Шаг 4: Сравним  “плохой” и “хороший”
@@ -91,7 +91,7 @@ CMD ["python3", "app.py"]
 RUN groupadd -r user && useradd -r -g user user
 RUN chown user:user /app.py
 USER user
-CMD ["python3", "app.py"]
+CMD ["/venv/bin/python3", "app.py"]
 ```
  – Создаем системную группу
 
@@ -102,6 +102,7 @@ CMD ["python3", "app.py"]
  – Переключает контекст выполнения всех последующих команд на указанного пользователя
 
 Безопасность обеспечивается тем что приложение запускается с минимальными разрешениями
+
 ### Плохая практика №3
 #### Хранение секретов в образе
 ```dockerfile
@@ -140,11 +141,48 @@ RUN apt-get install -y python3 python3-pip
 
 #### Решение
 ```dockerfile
-RUN apt-get update && apt-get install -y python3 python3-pip
+RUN apt-get update && apt-get install -y python3 python3-pip python3-venv
 ```
 – Объединение команд уменьшает количество слоев
 
-## Шаг 5: Косяки в работе с контейнерами
+### Плохая практика №6
+#### Игнорирование современных ограничений безопасности
+```dockerfile
+RUN pip3 install --break-system-packages flask
+```
+– Обход системных защит, что может привести к конфликтам пакетов
+
+#### Решение
+```dockerfile
+RUN python3 -m venv /venv && /venv/bin/pip install flask
+CMD ["/venv/bin/python3", "app.py"]
+```
+– Использование виртуального окружения для изоляции зависимостей
+
+## Шаг 5: Тестирование
+### Сборка Docker образов
+<img width="1358" height="517" alt="Снимок экрана 2025-11-17 в 18 09 23" src="https://github.com/user-attachments/assets/08b6fca7-71b6-4c11-b568-4ed86eb9a934" />
+
+<img width="1369" height="518" alt="Снимок экрана 2025-11-17 в 18 09 34" src="https://github.com/user-attachments/assets/d49fbe02-4351-4fe4-b7bd-903e0171de95" />
+
+
+### Запуск контейнеров
+<img width="653" height="57" alt="Снимок экрана 2025-11-17 в 18 10 51" src="https://github.com/user-attachments/assets/79226dc0-f8a2-4201-8e2e-c7dcde14cb3b" />
+
+<img width="678" height="52" alt="Снимок экрана 2025-11-17 в 18 10 57" src="https://github.com/user-attachments/assets/809f4dd4-4bca-482b-a8f7-05473fd72d84" />
+
+<img width="1144" height="86" alt="Снимок экрана 2025-11-17 в 18 11 03" src="https://github.com/user-attachments/assets/2c9dcb7c-0578-4716-9325-908f5cc87ac4" />
+
+<img width="997" height="89" alt="Снимок экрана 2025-11-17 в 18 11 14" src="https://github.com/user-attachments/assets/d41c745b-9afe-449a-8d84-13559a1fd6aa" />
+
+### Тестирование приложений
+
+<img width="527" height="47" alt="Снимок экрана 2025-11-17 в 18 11 35" src="https://github.com/user-attachments/assets/3e1f3f36-f122-4f87-aa09-15ce734a1c9b" />
+
+<img width="489" height="60" alt="Снимок экрана 2025-11-17 в 18 11 38" src="https://github.com/user-attachments/assets/6a16b15e-da60-418c-bee9-28920d00153a" />
+
+
+## Шаг 6: Косяки в работе с контейнерами
 В возможные ошибки в работе с контейнерами, а не их сборке, можно включить: 
 ### Неиспользование restart policies
 При любом падении приложения контейнер останавливается и пре перезагрузке сервиса контейнеры не запускаются автоматически. Для восстановления работы требуется ручное вмешательство. 
