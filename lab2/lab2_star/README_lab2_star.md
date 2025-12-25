@@ -150,6 +150,14 @@ services:
 
 Лабораторная работа успешно продемонстрировала критическую важность следования best practices в Docker Compose: переход от опасных "latest" тегов и открытых секретов к фиксированным версиям и защищённым .env-файлам, от запуска от root к непривилегированным пользователям, и главное — от общей уязвимой сети к полной изоляции сервисов через раздельные сети, что подтверждается ошибкой ping: bad address и предотвращает горизонтальное перемещение атак в production-средах.
 
-https://github.com/Veinls/DevOps_labs/blob/lab2_star/lab2/lab2_star/scrin/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202025-12-25%20%D0%B2%2022.25.58.png
-https://github.com/Veinls/DevOps_labs/blob/lab2_star/lab2/lab2_star/scrin/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202025-12-25%20%D0%B2%2022.27.18.png
-https://github.com/Veinls/DevOps_labs/blob/lab2_star/lab2/lab2_star/scrin/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202025-12-25%20%D0%B2%2022.28.12.png
+### 1. Плохие практики Docker Compose
+![Плохой docker-compose: latest тег, секреты в коде, root пользователь](scrin/screenshot1-bad.png)
+*nginx:latest (1.29.4), пароли в переменных окружения, запуск от root*
+
+### 2. Исправленные лучшие практики  
+![Хороший docker-compose: фиксированные версии, защищённые секреты](scrin/screenshot2-good.png)
+*nginx:1.25-alpine, пароли из .env файла, безопасная конфигурация*
+
+### 3. Доказательство сетевой изоляции
+![Сетевая изоляция: ping: bad address 'isolated_db'](scrin/screenshot3-isolation.png)
+*Веб-сервер не может подключиться к БД, разные сети подтверждают изоляцию*
