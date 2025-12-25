@@ -1,0 +1,10 @@
+db_password.txt
+postgres_password.txt
+.env
+
+demonstrate_all.sh
+minimal_demo.sh
+
+
+*.log
+.DS_Store

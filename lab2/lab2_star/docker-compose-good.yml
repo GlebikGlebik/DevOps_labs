@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  web:
+    image: nginx:${NGINX_VERSION:-1.25-alpine}
+    container_name: good_web
+    ports:
+      - "${NGINX_PORT:-8080}:80"
+    volumes:
+      - ./public_html:/usr/share/nginx/html:ro
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  db:
+    image: postgres:${POSTGRES_VERSION:-16-alpine}
+    container_name: good_db
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

@@ -1,0 +1,28 @@
+version: '3.8'
+
+networks:
+  web_network:
+    driver: bridge
+  db_network:
+    driver: bridge
+
+services:
+  web:
+    image: nginx:${NGINX_VERSION:-1.25-alpine}
+    container_name: isolated_web
+    ports:
+      - "8081:80"
+    volumes:
+      - ./public_html:/usr/share/nginx/html:ro
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - web_network
+
+  db:
+    image: postgres:${POSTGRES_VERSION:-16-alpine}
+    container_name: isolated_db
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - db_network
