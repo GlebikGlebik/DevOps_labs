@@ -1,0 +1,4 @@
+db_password.txt
+postgres_password.txt
+*.temp
+.env

@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  web:
+    image: nginx:latest
+    container_name: my_web_app
+    ports:
+      - "80:80"
+    environment:
+      DB_PASSWORD: MyPassword
+    volumes:
+      - ./public_html:/usr/share/nginx/html
+
+
+  db:
+    image: postgres:latest
+    container_name: my_db
+    environment:
+      POSTGRES_PASSWORD: MySuperPassword
