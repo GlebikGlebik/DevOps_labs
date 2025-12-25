@@ -150,17 +150,11 @@ services:
 
 Лабораторная работа успешно продемонстрировала критическую важность следования best practices в Docker Compose: переход от опасных "latest" тегов и открытых секретов к фиксированным версиям и защищённым .env-файлам, от запуска от root к непривилегированным пользователям, и главное — от общей уязвимой сети к полной изоляции сервисов через раздельные сети, что подтверждается ошибкой ping: bad address и предотвращает горизонтальное перемещение атак в production-средах.
 
-## 1. Плохие практики в действии
-![Плохой docker-compose: latest тег, секреты в коде, root пользователь](https://github.com/Veinls/DevOps_labs/raw/lab2_star/lab2/scrin/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202025-12-25%20%D0%B2%2022.25.58.png)
+<h3>1. Плохой вариант (latest тег, секреты в коде)</h3>
+<img src="https://github.com/Veinls/DevOps_labs/raw/lab2_star/lab2_star/scrin/Снимок%20экрана%202025-12-25%20в%2022.25.58.png" alt="Плохой docker-compose" width="800">
 
-*Проблемы: nginx:latest (1.29.4), пароль в переменных окружения, запуск от root*
+<h3>2. Хороший вариант (фиксированные версии)</h3>
+<img src="https://github.com/Veinls/DevOps_labs/raw/lab2_star/lab2_star/scrin/Снимок%20экрана%202025-12-25%20в%2022.27.18.png" alt="Хороший docker-compose" width="800">
 
-## 2. Исправленные практики
-![Хороший docker-compose: фиксированные версии, защищённые секреты](https://github.com/Veinls/DevOps_labs/raw/lab2_star/lab2/scrin/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202025-12-25%20%D0%B2%2022.27.18.png)
-
-*Исправления: nginx:1.25-alpine, пароли из .env файла, безопасная конфигурация*
-
-## 3. Доказательство сетевой изоляции
-![Сетевая изоляция: ping: bad address 'isolated_db'](https://github.com/Veinls/DevOps_labs/raw/lab2_star/lab2/scrin/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202025-12-25%20%D0%B2%2022.28.12.png)
-
-*Результат: Веб-сервер не может подключиться к БД, разные сети подтверждают изоляцию*
+<h3>3. Изоляция (разные сети)</h3>
+<img src="https://github.com/Veinls/DevOps_labs/raw/lab2_star/lab2_star/scrin/Снимок%20экрана%202025-12-25%20в%2022.28.12.png" alt="Доказательство изоляции" width="800">
