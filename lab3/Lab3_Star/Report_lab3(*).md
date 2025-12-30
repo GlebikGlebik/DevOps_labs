@@ -6,6 +6,9 @@
 3) Уланова Елизавета Эдуардовна
 4) Матюков Дмитрий Владимирович
 
+## Ссылка на Pull Request:
+```https://github.com/inview-club/devops-cases/pull/46```
+
 ## Auditor
 1. Клонируем репозиторий: ```https://gitlab.inview.team/whitespots-public-fork/auditor.git```
 2. Запускаем контейнеры: 
